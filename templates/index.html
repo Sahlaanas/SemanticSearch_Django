@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right,rgb(105, 177, 197),rgb(141, 170, 206)); /* Standard blue gradient */
+            color: #333;
+        }
+
+        header {
+            
+            color: #333;
+           
+            text-align: center;
+            
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+     
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #00c6ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0072ff;
+        }
+
+        #results p {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .navigate-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            background-color: #00c6ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .navigate-btn:hover {
+            background-color: #0072ff;
+        }
+        .button-container {
+            text-align: right; /* Align the button to the right */
+            margin-top: 20px; /* Optional: Add some spacing between the form and the button */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Semantic Search Engine</h1>
+    </header>
+
+    <div class="container">
+        
+     <div>
+        <h2>Search FAQs</h2>
+        
+        <form id="query-form" method="POST" action="{% url 'search' %}">
+            {% csrf_token %}
+            <label for="query">Enter your query:</label>
+            <input type="text" id="query" name="query" 
+            placeholder="Type your question here..." required 
+            value="{% if query %}{{ query }}{% endif %}">
+            <button type="submit">Search</button>
+        </form>
+        {% if results %}
+        <h2>Search Results</h2>
+        <div id="results">
+            {% for i in results %}
+            <p>{{i.answer}}
+            Similarity score : {{i.similarity}} </p>
+            {% endfor %}
+        </div> 
+        {% else %}
+        <h3>No match found </h3>
+        {% endif %}
+    </div>
+    <div class="button-container"> 
+        <a href={%url 'add_faq' %} class="navigate-btn">Add FAQ</a>
+    </div>
+</div>
+    {% comment %} <script>
+        document.getElementById('query-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+
+            const response = await fetch('/query-faq/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query }),
+            });
+
+            const result = await response.json();
+            const resultsDiv = document.getElementById('results');
+
+            if (result.results && result.results.length > 0) {
+                resultsDiv.innerHTML = result.results.map(
+                    (res) => `<p><strong>${res.question}</strong>: ${res.answer}</p>`
+                ).join('');
+            } else {
+                resultsDiv.innerHTML = `<p>No matching FAQs found. Please try a different query.</p>`;
+            }
+        });
+    </script> {% endcomment %}
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add FAQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, rgb(105, 177, 197), rgb(141, 170, 206));
+            color: #333;
+        }
+
+        header {
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #00c6ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0072ff;
+        }
+
+        .button-container {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .navigate-btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #00c6ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .navigate-btn:hover {
+            background-color: #0072ff;
+        }
+    </style>
+
+    <!-- Include SweetAlert2 from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <h1>Add FAQ</h1>
+    </header>
+
+    <div class="container">
+        <h2>Enter a New FAQ</h2>
+        <form id="add-faq-form" method="POST">
+            {% csrf_token %}
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" placeholder="Enter your question here..." required>
+
+            <label for="answer">Answer:</label>
+            <textarea id="answer" name="answer" placeholder="Enter the answer here..." rows="4" required></textarea>
+
+            <button type="submit">Add FAQ</button>
+        </form>
+
+        {% if faq_added %}
+        <script>
+            // Show SweetAlert on successful FAQ addition
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Your FAQ has been added.',
+                confirmButtonText: 'OK',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'add_faq' %}";  
+                }
+            });
+        </script>
+        {% endif %}
+
+        <div class="button-container">
+            <a href="{% url 'search' %}" class="navigate-btn">Back to Search</a>
+        </div>
+    </div>
+</body>
+</html>
