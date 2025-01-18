@@ -21,5 +21,8 @@ This project Semantic Search Engine for retrieving frequently asked questions is
 10. Evaluated the model with MRR and NDCG metrics and added jypyter file in scripts folder
 11. Leveraged gemini api to generate FAQ dataset include questions and answers in json format and used this data for evaluation purpose.
 
-    (https://github.com/user-attachments/assets/c30197d8-56cd-40b5-a061-bf4f2ba38981)
+ ![image](https://github.com/user-attachments/assets/79c7de25-57dd-4ead-950e-047fadedbcde)
+ ![image](https://github.com/user-attachments/assets/34e8a325-69eb-4856-bb19-59a334c600a8)
+
+
 
